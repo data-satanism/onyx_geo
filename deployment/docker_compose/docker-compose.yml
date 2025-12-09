@@ -45,7 +45,7 @@ services:
     command: >
       /bin/sh -c "alembic upgrade head &&
       echo \"Starting Onyx Api Server\" &&
-      uvicorn onyx.main:app --host 0.0.0.0 --port 8080"
+      uvicorn onyx.main:app --host 0.0.0.0 --port 8081"
     # Check env.template and copy to .env for env vars
     env_file:
       - path: .env
@@ -61,7 +61,7 @@ services:
     # 1. Use docker-compose.dev.yml: docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
     # 2. Uncomment the ports below
     # ports:
-    #   - "8080:8080"
+    #   - "8081:8081"
     environment:
       # Auth Settings
       - AUTH_TYPE=${AUTH_TYPE:-basic}
@@ -85,6 +85,10 @@ services:
     # Optional, only for debugging purposes
     volumes:
       - api_server_logs:/var/log/onyx
+      - ./overrides/extract_file_text.py:/app/onyx/file_processing/extract_file_text.py:ro
+      - ./overrides/image_summarization.py:/app/onyx/file_processing/image_summarization.py:ro
+      - ./overrides/image_analysis.py:/app/onyx/prompts/image_analysis.py:ro
+      - ./overrides/connector.py:/app/onyx/server/documents/connector.py:ro
 
   background:
     image: ${ONYX_BACKEND_IMAGE:-onyxdotapp/onyx-backend:${IMAGE_TAG:-latest}}
@@ -125,6 +129,10 @@ services:
     # Optional, only for debugging purposes
     volumes:
       - background_logs:/var/log/onyx
+      - ./overrides/extract_file_text.py:/app/onyx/file_processing/extract_file_text.py:ro
+      - ./overrides/image_summarization.py:/app/onyx/file_processing/image_summarization.py:ro
+      - ./overrides/image_analysis.py:/app/onyx/prompts/image_analysis.py:ro
+      - ./overrides/connector.py:/app/onyx/server/documents/connector.py:ro
     logging:
       driver: json-file
       options:
@@ -163,7 +171,7 @@ services:
       - api_server
     restart: unless-stopped
     environment:
-      - INTERNAL_URL=${INTERNAL_URL:-http://api_server:8080}
+      - INTERNAL_URL=${INTERNAL_URL:-http://api_server:8081}
 
   mcp_server:
     image: ${ONYX_BACKEND_IMAGE:-onyxdotapp/onyx-backend:${IMAGE_TAG:-latest}}
@@ -193,7 +201,7 @@ services:
       - MCP_SERVER_CORS_ORIGINS=${MCP_SERVER_CORS_ORIGINS:-}
       - API_SERVER_PROTOCOL=${API_SERVER_PROTOCOL:-http}
       - API_SERVER_HOST=${API_SERVER_HOST:-api_server}
-      - API_SERVER_PORT=${API_SERVER_PORT:-8080}
+      - API_SERVER_PORT=${API_SERVER_PORT:-8081}
     extra_hosts:
       - "host.docker.internal:host-gateway"
     logging:
@@ -210,15 +218,7 @@ services:
     build:
       context: ../../backend
       dockerfile: Dockerfile.model_server
-    # GPU Support: Uncomment the following lines to enable GPU support
-    # Requires nvidia-container-toolkit to be installed on the host
-    # deploy:
-    #   resources:
-    #     reservations:
-    #       devices:
-    #         - driver: nvidia
-    #           count: all
-    #           capabilities: [gpu]
+    gpus: all
     command: >
       /bin/sh -c "if [ \"${DISABLE_MODEL_SERVER:-}\" = \"True\" ] || [ \"${DISABLE_MODEL_SERVER:-}\" = \"true\" ]; then
         echo 'Skipping service...';
@@ -230,11 +230,16 @@ services:
       - path: .env
         required: false
     restart: unless-stopped
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
     volumes:
-      # Not necessary, this is just to reduce download time during startup
       - model_cache_huggingface:/app/.cache/huggingface/
-      # Optional, only for debugging purposes
       - inference_model_server_logs:/var/log/onyx
+      - ./overrides/utils.py:/app/model_server/utils.py:ro
+      - ./overrides/custom_models.py:/app/model_server/custom_models.py:ro
+      - ./overrides/encoders.py:/app/model_server/encoders.py:ro
+      - ./overrides/configs.py:/app/shared_configs/configs.py:ro
     logging:
       driver: json-file
       options:
@@ -248,13 +253,13 @@ services:
       dockerfile: Dockerfile.model_server
     # GPU Support: Uncomment the following lines to enable GPU support
     # Requires nvidia-container-toolkit to be installed on the host
-    # deploy:
-    #   resources:
-    #     reservations:
-    #       devices:
-    #         - driver: nvidia
-    #           count: all
-    #           capabilities: [gpu]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
     command: >
       /bin/sh -c "if [ \"${DISABLE_MODEL_SERVER:-}\" = \"True\" ] || [ \"${DISABLE_MODEL_SERVER:-}\" = \"true\" ]; then
         echo 'Skipping service...';
@@ -273,6 +278,10 @@ services:
       - indexing_huggingface_model_cache:/app/.cache/huggingface/
       # Optional, only for debugging purposes
       - indexing_model_server_logs:/var/log/onyx
+      - ./overrides/utils.py:/app/model_server/utils.py:ro
+      - ./overrides/custom_models.py:/app/model_server/custom_models.py:ro
+      - ./overrides/encoders.py:/app/model_server/encoders.py:ro
+      - ./overrides/configs.py:/app/shared_configs/configs.py:ro
     logging:
       driver: json-file
       options:
@@ -295,7 +304,7 @@ services:
     # 1. Use docker-compose.dev.yml: docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
     # 2. Uncomment the ports below
     # ports:
-    #   - "5432:5432"
+    #   - "5433:5433"
     volumes:
       - db_volume:/var/lib/postgresql/data
 
@@ -313,7 +322,7 @@ services:
     # 2. Uncomment the ports below
     # ports:
     #   - "19071:19071"
-    #   - "8081:8081"
+    #   - "8082:8082"
     volumes:
       - vespa_volume:/opt/vespa/var
     logging:
@@ -335,6 +344,7 @@ services:
         required: false
     environment:
       - DOMAIN=localhost
+      - API_SERVER_PORT=8081
       # Nginx proxy timeout settings (in seconds)
       - NGINX_PROXY_CONNECT_TIMEOUT=${NGINX_PROXY_CONNECT_TIMEOUT:-300}
       - NGINX_PROXY_SEND_TIMEOUT=${NGINX_PROXY_SEND_TIMEOUT:-300}
@@ -361,6 +371,8 @@ services:
     command: >
       /bin/sh -c "dos2unix /etc/nginx/conf.d/run-nginx.sh
       && /etc/nginx/conf.d/run-nginx.sh app.conf.template"
+    extra_hosts:
+      - host.docker.internal:host-gateway
 
   cache:
     image: redis:7.4-alpine

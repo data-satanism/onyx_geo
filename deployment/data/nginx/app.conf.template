@@ -13,7 +13,7 @@ upstream api_server {
 
     # for a TCP configuration
     # TODO: use gunicorn to manage multiple processes
-    server ${ONYX_BACKEND_API_HOST}:8080 fail_timeout=0;
+    server ${ONYX_BACKEND_API_HOST}:8081 fail_timeout=0;
 }
 
 upstream web_server {
@@ -25,6 +25,8 @@ include /etc/nginx/conf.d/mcp_upstream.conf.inc;
 
 server {
     listen 80 default_server;
+
+    charset utf-8;
 
     client_max_body_size 5G;    # Maximum upload size
 
