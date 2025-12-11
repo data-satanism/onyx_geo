@@ -1,0 +1,33 @@
+
+
+cd /run/media/karl/really_big_HDD1/onyx_geo/deployment/docker_compose
+docker compose up -d index relational_db cache minio
+
+// ----------------------------------------------------
+
+
+cd /run/media/karl/really_big_HDD1/onyx_geo/backend
+source .venv/bin/activate
+uvicorn model_server.main:app --reload --port 9000
+
+
+///// -------------------
+
+
+cd /run/media/karl/really_big_HDD1/onyx_geo/backend
+source .venv/bin/activate
+python ./scripts/dev_run_background_jobs.py
+
+/-------
+
+cd /run/media/karl/really_big_HDD1/onyx_geo/backend
+source .venv/bin/activate
+AUTH_TYPE=disabled uvicorn onyx.main:app --reload --port 8080
+
+
+///////
+
+
+cd /run/media/karl/really_big_HDD1/onyx_geo/web
+nvm use 22
+npm run dev
