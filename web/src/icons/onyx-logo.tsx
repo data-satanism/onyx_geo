@@ -13,8 +13,8 @@ const OnyxLogo = ({
     x="0px"
     y="0px"
     width="100%"
-    viewBox="0 0 24 24"
-    enableBackground="new 0 0 24 24"
+    viewBox="0 0 320 304"
+    enableBackground="new 0 0 320 304"
     xmlSpace="preserve"
   >
     <path
