@@ -579,8 +579,8 @@ export const OnyxIcon = ({
     x="0px"
     y="0px"
     width="100%"
-    viewBox="0 0 320 304"
-    enableBackground="new 0 0 320 304"
+    viewBox="0 0 16 16"
+    enableBackground="new 0 0 16 16"
     xmlSpace="preserve"
   >
     <path
