@@ -25,6 +25,7 @@ from onyx.llm.message_types import ToolCall
 from onyx.llm.message_types import ToolMessage
 from onyx.llm.message_types import UserMessageWithParts
 from onyx.llm.message_types import UserMessageWithText
+from onyx.llm.utils import decode_messages_unicode
 from onyx.server.query_and_chat.streaming_models import AgentResponseDelta
 from onyx.server.query_and_chat.streaming_models import AgentResponseStart
 from onyx.server.query_and_chat.streaming_models import CitationInfo
@@ -330,7 +331,7 @@ def translate_history_to_llm_format(
 
             tool_msg: ToolMessage = {
                 "role": "tool",
-                "content": msg.message,
+                "content": decode_messages_unicode(msg.message),
                 "tool_call_id": msg.tool_call_id,
             }
             messages.append(tool_msg)

@@ -38,6 +38,7 @@ from onyx.llm.message_types import ToolMessage
 from onyx.llm.message_types import UserMessageWithParts
 from onyx.llm.message_types import UserMessageWithText
 from onyx.llm.utils import model_needs_formatting_reenabled
+from onyx.llm.utils import decode_messages_unicode
 from onyx.prompts.chat_prompts import IMAGE_GEN_REMINDER
 from onyx.prompts.chat_prompts import OPEN_URL_REMINDER
 from onyx.server.query_and_chat.streaming_models import OverallStop
@@ -69,7 +70,7 @@ logger = setup_logger()
 # Cycle 4: Calls open_url for some results
 # Cycle 5: Maybe call open_url for some additional results or because last set failed
 # Cycle 6: No more tools available, forced to answer
-MAX_LLM_CYCLES = 3
+MAX_LLM_CYCLES = 6
 
 
 def _build_project_file_citation_mapping(
@@ -136,7 +137,7 @@ def construct_message_history(
             result.append(custom_agent_prompt)
         if project_files.project_file_texts:
             project_message = _create_project_files_message(
-                project_files, token_counter=None
+                project_files, token_counter=token_counter(project_files)
             )
             result.append(project_message)
         if reminder_message:
@@ -161,15 +162,6 @@ def construct_message_history(
     history_before_last_user = simple_chat_history[:last_user_msg_index]
     last_user_message = simple_chat_history[last_user_msg_index]
     messages_after_last_user = simple_chat_history[last_user_msg_index + 1 :]
-    logger.warning(
-        f"{history_before_last_user}"
-    )
-    logger.warning(
-        f"{last_user_message}"
-    )
-    logger.warning(
-        f"{messages_after_last_user}"
-    )
 
     # Calculate tokens needed for the last user message and everything after it
     last_user_tokens = last_user_message.token_count
@@ -177,11 +169,11 @@ def construct_message_history(
 
     # Check if we can fit at least the last user message and messages after it
     required_tokens = last_user_tokens + after_user_tokens
-    if required_tokens > history_token_budget:
-        raise ValueError(
-            f"Not enough tokens to include the last user message and subsequent messages. "
-            f"Required: {required_tokens}, Available: {history_token_budget}"
-        )
+    # if required_tokens > history_token_budget:
+    #     raise ValueError(
+    #         f"Not enough tokens to include the last user message and subsequent messages. "
+    #         f"Required: {required_tokens}, Available: {history_token_budget}"
+    #     )
 
     # Calculate remaining budget for history before the last user message
     remaining_budget = history_token_budget - required_tokens
@@ -219,7 +211,7 @@ def construct_message_history(
     # 2. Add project files message (inserted before last user message)
     if project_files.project_file_texts:
         project_message = _create_project_files_message(
-            project_files, token_counter=None
+            project_files, token_counter=token_counter(project_files)
         )
         result.append(project_message)
     
@@ -396,7 +388,7 @@ def translate_history_to_llm_format(
 
             tool_msg: ToolMessage = {
                 "role": "tool",
-                "content": msg.message,
+                "content": decode_messages_unicode(msg.message),
                 "tool_call_id": msg.tool_call_id,
             }
             messages.append(tool_msg)
@@ -453,6 +445,8 @@ def run_llm_loop(
 
         # Pass the total budget to construct_message_history, which will handle token allocation
         available_tokens = llm.config.max_input_tokens
+        logger.info(f"LLM: {llm.config.model_name}")
+        logger.info(f"Available Tokens: {available_tokens}")
         tool_choice: ToolChoiceOptions = "auto"
         collected_tool_calls: list[ToolCallInfo] = []
         # Initialize gathered_documents with project files if present

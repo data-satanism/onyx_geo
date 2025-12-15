@@ -3,14 +3,14 @@ import os
 INPUT_PROMPT_YAML = "./onyx/seeding/input_prompts.yaml"
 PROMPTS_YAML = "./onyx/seeding/prompts.yaml"
 PERSONAS_YAML = "./onyx/seeding/personas.yaml"
-NUM_RETURNED_HITS = 50
+NUM_RETURNED_HITS = 15
 # Used for LLM filtering and reranking
 # We want this to be approximately the number of results we want to show on the first page
 # It cannot be too large due to cost and latency implications
-NUM_POSTPROCESSED_RESULTS = 15
+NUM_POSTPROCESSED_RESULTS = 5
 
 # May be less depending on model
-MAX_CHUNKS_FED_TO_CHAT = int(os.environ.get("MAX_CHUNKS_FED_TO_CHAT") or 25)
+MAX_CHUNKS_FED_TO_CHAT = int(os.environ.get("MAX_CHUNKS_FED_TO_CHAT") or 15)
 # For Chat, need to keep enough space for history and other prompt pieces
 # ~3k input, half for docs, half for chat history + prompts
 CHAT_TARGET_CHUNK_PERCENTAGE = 512 * 3 / 3072

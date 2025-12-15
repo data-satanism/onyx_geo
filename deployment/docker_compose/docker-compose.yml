@@ -85,14 +85,31 @@ services:
     # Optional, only for debugging purposes
     volumes:
       - api_server_logs:/var/log/onyx
+      - ./overrides/onyx/configs/chat_config.py:/app/onyx/configs/chat_config.py:ro
       - ./overrides/onyx/file_processing/extract_file_text.py:/app/onyx/file_processing/extract_file_text.py:ro
       - ./overrides/onyx/file_processing/image_summarization.py:/app/onyx/file_processing/image_summarization.py:ro
       - ./overrides/onyx/prompts/image_analysis.py:/app/onyx/prompts/image_analysis.py:ro
       - ./overrides/onyx/prompts/chat_prompts.py:/app/onyx/prompts/chat_prompts.py:ro
-      # - ./overrides/onyx/chat/llm_loop.py:/app/onyx/chat/llm_loop.py:ro
-      # - ./overrides/onyx/chat/llm_step.py:/app/onyx/chat/llm_step.py:ro
+      - ./overrides/onyx/prompts/answer_validation.py:/app/onyx/prompts/answer_validation.py:ro
+      - ./overrides/onyx/prompts/chat_tools.py:/app/onyx/prompts/chat_tools.py:ro
+      - ./overrides/onyx/prompts/constants.py:/app/onyx/prompts/constants.py:ro
+      - ./overrides/onyx/prompts/contextual_retrieval.py:/app/onyx/prompts/contextual_retrieval.py:ro
+      - ./overrides/onyx/prompts/direct_qa_prompts.py:/app/onyx/prompts/direct_qa_prompts.py:ro
+      - ./overrides/onyx/prompts/federated_search.py:/app/onyx/prompts/federated_search.py:ro
+      - ./overrides/onyx/prompts/filter_extration.py:/app/onyx/prompts/filter_extration.py:ro
+      - ./overrides/onyx/prompts/llm_chunk_filter.py:/app/onyx/prompts/llm_chunk_filter.py:ro
+      - ./overrides/onyx/prompts/miscellaneous_prompts.py:/app/onyx/prompts/miscellaneous_prompts.py:ro
+      - ./overrides/onyx/prompts/query_validation.py:/app/onyx/prompts/query_validation.py:ro
+      - ./overrides/onyx/prompts/search_prompts.py:/app/onyx/prompts/search_prompts.py:ro
+      - ./overrides/onyx/prompts/starter_messages.py:/app/onyx/prompts/starter_messages.py:ro
+      - ./overrides/onyx/prompts/tool_prompts.py:/app/onyx/prompts/tool_prompts.py:ro
+      - ./overrides/onyx/chat/llm_loop.py:/app/onyx/chat/llm_loop.py:ro
+      - ./overrides/onyx/chat/llm_step.py:/app/onyx/chat/llm_step.py:ro
+      - ./overrides/onyx/llm/chat_llm.py:/app/onyx/llm/chat_llm.py:ro
+      - ./overrides/onyx/llm/utils.py:/app/onyx/llm/utils.py:ro
       - ./overrides/onyx/tools/tool_implementations/web_search/utils.py:/app/onyx/tools/tool_implementations/web_search/utils.py:ro
       - ./overrides/onyx/tools/tool_implementations/web_search/models.py:/app/onyx/tools/tool_implementations/web_search/models.py:ro
+      - ./overrides/onyx/tools/tool_runner.py:/app/onyx/tools/tool_runner.py:ro
       - ./overrides/onyx/server/documents/connector.py:/app/onyx/server/documents/connector.py:ro
       - ./overrides/onyx/tools/tool_implementations/web_search/clients/google_pse_client.py:/app/onyx/tools/tool_implementations/web_search/clients/google_pse_client.py:ro
 
@@ -135,14 +152,31 @@ services:
     # Optional, only for debugging purposes
     volumes:
       - background_logs:/var/log/onyx
+      - ./overrides/onyx/configs/chat_config.py:/app/onyx/configs/chat_config.py:ro
       - ./overrides/onyx/file_processing/extract_file_text.py:/app/onyx/file_processing/extract_file_text.py:ro
       - ./overrides/onyx/file_processing/image_summarization.py:/app/onyx/file_processing/image_summarization.py:ro
       - ./overrides/onyx/prompts/image_analysis.py:/app/onyx/prompts/image_analysis.py:ro
       - ./overrides/onyx/prompts/chat_prompts.py:/app/onyx/prompts/chat_prompts.py:ro
-      # - ./overrides/onyx/chat/llm_loop.py:/app/onyx/chat/llm_loop.py:ro
-      # - ./overrides/onyx/chat/llm_step.py:/app/onyx/chat/llm_step.py:ro
+      - ./overrides/onyx/prompts/answer_validation.py:/app/onyx/prompts/answer_validation.py:ro
+      - ./overrides/onyx/prompts/chat_tools.py:/app/onyx/prompts/chat_tools.py:ro
+      - ./overrides/onyx/prompts/constants.py:/app/onyx/prompts/constants.py:ro
+      - ./overrides/onyx/prompts/contextual_retrieval.py:/app/onyx/prompts/contextual_retrieval.py:ro
+      - ./overrides/onyx/prompts/direct_qa_prompts.py:/app/onyx/prompts/direct_qa_prompts.py:ro
+      - ./overrides/onyx/prompts/federated_search.py:/app/onyx/prompts/federated_search.py:ro
+      - ./overrides/onyx/prompts/filter_extration.py:/app/onyx/prompts/filter_extration.py:ro
+      - ./overrides/onyx/prompts/llm_chunk_filter.py:/app/onyx/prompts/llm_chunk_filter.py:ro
+      - ./overrides/onyx/prompts/miscellaneous_prompts.py:/app/onyx/prompts/miscellaneous_prompts.py:ro
+      - ./overrides/onyx/prompts/query_validation.py:/app/onyx/prompts/query_validation.py:ro
+      - ./overrides/onyx/prompts/search_prompts.py:/app/onyx/prompts/search_prompts.py:ro
+      - ./overrides/onyx/prompts/starter_messages.py:/app/onyx/prompts/starter_messages.py:ro
+      - ./overrides/onyx/prompts/tool_prompts.py:/app/onyx/prompts/tool_prompts.py:ro
+      - ./overrides/onyx/chat/llm_loop.py:/app/onyx/chat/llm_loop.py:ro
+      - ./overrides/onyx/chat/llm_step.py:/app/onyx/chat/llm_step.py:ro
+      - ./overrides/onyx/llm/chat_llm.py:/app/onyx/llm/chat_llm.py:ro
+      - ./overrides/onyx/llm/utils.py:/app/onyx/llm/utils.py:ro
       - ./overrides/onyx/tools/tool_implementations/web_search/utils.py:/app/onyx/tools/tool_implementations/web_search/utils.py:ro
       - ./overrides/onyx/tools/tool_implementations/web_search/models.py:/app/onyx/tools/tool_implementations/web_search/models.py:ro
+      - ./overrides/onyx/tools/tool_runner.py:/app/onyx/tools/tool_runner.py:ro
       - ./overrides/onyx/server/documents/connector.py:/app/onyx/server/documents/connector.py:ro
       - ./overrides/onyx/tools/tool_implementations/web_search/clients/google_pse_client.py:/app/onyx/tools/tool_implementations/web_search/clients/google_pse_client.py:ro
     logging:
@@ -224,6 +258,32 @@ services:
     # Optional, only for debugging purposes
     volumes:
       - mcp_server_logs:/var/log/onyx
+      - ./overrides/onyx/configs/chat_config.py:/app/onyx/configs/chat_config.py:ro
+      - ./overrides/onyx/file_processing/extract_file_text.py:/app/onyx/file_processing/extract_file_text.py:ro
+      - ./overrides/onyx/file_processing/image_summarization.py:/app/onyx/file_processing/image_summarization.py:ro
+      - ./overrides/onyx/prompts/image_analysis.py:/app/onyx/prompts/image_analysis.py:ro
+      - ./overrides/onyx/prompts/chat_prompts.py:/app/onyx/prompts/chat_prompts.py:ro
+      - ./overrides/onyx/prompts/answer_validation.py:/app/onyx/prompts/answer_validation.py:ro
+      - ./overrides/onyx/prompts/chat_tools.py:/app/onyx/prompts/chat_tools.py:ro
+      - ./overrides/onyx/prompts/constants.py:/app/onyx/prompts/constants.py:ro
+      - ./overrides/onyx/prompts/contextual_retrieval.py:/app/onyx/prompts/contextual_retrieval.py:ro
+      - ./overrides/onyx/prompts/direct_qa_prompts.py:/app/onyx/prompts/direct_qa_prompts.py:ro
+      - ./overrides/onyx/prompts/federated_search.py:/app/onyx/prompts/federated_search.py:ro
+      - ./overrides/onyx/prompts/filter_extration.py:/app/onyx/prompts/filter_extration.py:ro
+      - ./overrides/onyx/prompts/llm_chunk_filter.py:/app/onyx/prompts/llm_chunk_filter.py:ro
+      - ./overrides/onyx/prompts/miscellaneous_prompts.py:/app/onyx/prompts/miscellaneous_prompts.py:ro
+      - ./overrides/onyx/prompts/query_validation.py:/app/onyx/prompts/query_validation.py:ro
+      - ./overrides/onyx/prompts/search_prompts.py:/app/onyx/prompts/search_prompts.py:ro
+      - ./overrides/onyx/prompts/starter_messages.py:/app/onyx/prompts/starter_messages.py:ro
+      - ./overrides/onyx/prompts/tool_prompts.py:/app/onyx/prompts/tool_prompts.py:ro
+      - ./overrides/onyx/chat/llm_loop.py:/app/onyx/chat/llm_loop.py:ro
+      - ./overrides/onyx/chat/llm_step.py:/app/onyx/chat/llm_step.py:ro
+      - ./overrides/onyx/llm/chat_llm.py:/app/onyx/llm/chat_llm.py:ro
+      - ./overrides/onyx/llm/utils.py:/app/onyx/llm/utils.py:ro
+      - ./overrides/onyx/tools/tool_implementations/web_search/utils.py:/app/onyx/tools/tool_implementations/web_search/utils.py:ro
+      - ./overrides/onyx/tools/tool_implementations/web_search/models.py:/app/onyx/tools/tool_implementations/web_search/models.py:ro
+      - ./overrides/onyx/tools/tool_runner.py:/app/onyx/tools/tool_runner.py:ro
+      - ./overrides/onyx/server/documents/connector.py:/app/onyx/server/documents/connector.py:ro
       - ./overrides/onyx/tools/tool_implementations/web_search/clients/google_pse_client.py:/app/onyx/tools/tool_implementations/web_search/clients/google_pse_client.py:ro
 
   inference_model_server:

@@ -69,10 +69,6 @@ class GooglePSEClient(WebSearchProvider):
         if response.status_code == 200:
             data = response.json()
             for i, result in enumerate(data.get("results", [])):
-                print(f"{i+1}. {result['title']}")
-                print(result['snippet'])
-                print(result['url'])
-                print("-" * 50)
                 date_str = result.get('date')
                 try:
                     published_date = datetime.fromisoformat(date_str) if date_str else None
