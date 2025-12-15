@@ -113,15 +113,14 @@ export default function ShareChatSessionModal({
 
       <ConfirmationModalLayout
         icon={SvgShare}
-        title="Share Chat"
+        title="Поделиться"
         onClose={onClose}
         submit={<Button onClick={onClose}>Share</Button>}
       >
         {shareLink ? (
           <div>
             <Text>
-              This chat session is currently shared. Anyone in your team can
-              view the message history using the following link:
+              Данный чат доступен по ссылке:
             </Text>
 
             <div className={cn("flex mt-2")}>
@@ -147,7 +146,7 @@ export default function ShareChatSessionModal({
             <Separator />
 
             <Text className={cn("mb-4")}>
-              Click the button below to make the chat private again.
+              Нажмите на кнопку ниже, чтобы закрыть доступ к чату
             </Text>
 
             <Button
@@ -159,7 +158,7 @@ export default function ShareChatSessionModal({
                     ChatSessionSharedStatus.Private
                   );
                 } else {
-                  alert("Failed to delete share link");
+                  alert("е удалось сгенерировать ссылку");
                 }
               }}
               danger
@@ -169,9 +168,8 @@ export default function ShareChatSessionModal({
           </div>
         ) : (
           <div className="flex flex-col gap-2">
-            <Callout type="warning" title="Warning">
-              Please make sure that all content in this chat is safe to share
-              with the whole team.
+            <Callout type="warning" title="Внимание">
+              Вся информация из данного чата будет доступна по ссылке
             </Callout>
             <Button
               leftIcon={SvgCopy}
@@ -181,7 +179,7 @@ export default function ShareChatSessionModal({
                 try {
                   const shareLink = await generateShareLink(chatSession.id);
                   if (!shareLink) {
-                    alert("Failed to generate share link");
+                    alert("Не удалось сгенерировать ссылку");
                   } else {
                     setShareLink(shareLink);
                     updateCurrentChatSessionSharedStatus(
@@ -195,7 +193,7 @@ export default function ShareChatSessionModal({
               }}
               secondary
             >
-              Generate and Copy Share Link
+              Поделиться ссылкой
             </Button>
           </div>
         )}
@@ -205,7 +203,7 @@ export default function ShareChatSessionModal({
         <AdvancedOptionsToggle
           showAdvancedOptions={showAdvancedOptions}
           setShowAdvancedOptions={setShowAdvancedOptions}
-          title="Advanced Options"
+          title="Дополнительно"
         />
 
         {showAdvancedOptions && (
@@ -225,25 +223,25 @@ export default function ShareChatSessionModal({
                   );
                   if (!seedLink) {
                     setPopup({
-                      message: "Failed to generate seed link",
+                      message: "Не удалось сгенерировать ссылку",
                       type: "error",
                     });
                   } else {
                     navigator.clipboard.writeText(seedLink);
                     copyAll(seedLink);
                     setPopup({
-                      message: "Link copied to clipboard!",
+                      message: "Ссылка скопирована",
                       type: "success",
                     });
                   }
                 } catch (e) {
                   console.error(e);
-                  alert("Failed to generate or copy link.");
+                  alert("Не удалось сгенерировать ссылку");
                 }
               }}
               secondary
             >
-              Generate and Copy Seed Link
+              Сгенерировать ссылку
             </Button>
           </div>
         )}

@@ -498,7 +498,7 @@ export default function ActionsPopover({
       {[
         <InputTypeIn
           key="search"
-          placeholder="Search Actions"
+          placeholder="Поиск"
           value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)}
           autoFocus
@@ -564,7 +564,7 @@ export default function ActionsPopover({
 
         (isAdmin || isCurator) && (
           <LineItem href="/admin/actions" icon={SvgActions} key="more-actions">
-            More Actions
+            Инструменты
           </LineItem>
         ),
       ]}
@@ -610,7 +610,7 @@ export default function ActionsPopover({
               icon={SvgSliders}
               transient={open}
               tertiary
-              tooltip="Manage Actions"
+              tooltip="Выбрать инструменты"
               disabled={disabled}
             />
           </div>

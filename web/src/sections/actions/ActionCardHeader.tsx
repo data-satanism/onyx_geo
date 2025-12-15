@@ -86,7 +86,7 @@ function ActionCardHeader({
               {showRenameIcon && (
                 <IconButton
                   icon={SvgEdit}
-                  tooltip="Rename"
+                  tooltip="Переименовать"
                   internal
                   tertiary
                   onClick={handleRenameClick}
@@ -117,7 +117,7 @@ function ActionCardHeader({
           {showEditButton && onEdit && (
             <IconButton
               icon={SvgEdit}
-              tooltip="Edit"
+              tooltip="Редактировать"
               internal
               tertiary
               onClick={onEdit}

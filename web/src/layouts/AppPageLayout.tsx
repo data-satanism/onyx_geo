@@ -166,7 +166,7 @@ export default function AppPageLayout({
           icon={SvgFolderIn}
           onClick={noProp(() => setShowMoveOptions(true))}
         >
-          Move to Project
+          Добавить в проект
         </LineItem>,
         <LineItem
           key="delete"
@@ -174,7 +174,7 @@ export default function AppPageLayout({
           onClick={noProp(() => setDeleteConfirmationModalOpen(true))}
           danger
         >
-          Delete
+          Удалить
         </LineItem>,
       ];
       setPopoverItems(items);
@@ -265,7 +265,7 @@ export default function AppPageLayout({
                 onClick={() => setShowShareModal(true)}
                 className={cn(showCenteredInput && "invisible")}
               >
-                Share Chat
+                Поделиться
               </Button>
               <div className={cn(showCenteredInput && "invisible")}>
                 <SimplePopover

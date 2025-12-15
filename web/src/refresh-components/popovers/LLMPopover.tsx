@@ -360,7 +360,7 @@ export default function LLMPopover({
             internal
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search models..."
+            placeholder="Поиск моделей"
           />
 
           {/* Model List with Vendor Groups */}
@@ -502,7 +502,7 @@ export default function LLMPopover({
                 />
                 <div className="flex flex-row items-center justify-between">
                   <Text secondaryBody text03>
-                    Temperature (creativity)
+                    Температура (креативность)
                   </Text>
                   <Text secondaryBody text03>
                     {localTemperature.toFixed(1)}

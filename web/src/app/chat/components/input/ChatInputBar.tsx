@@ -458,7 +458,7 @@ function ChatInputBarInner({
           style={{ scrollbarWidth: "thin" }}
           role="textarea"
           aria-multiline
-          placeholder="How can I help you today"
+          placeholder=""
           value={message}
           onKeyDown={(event) => {
             if (
@@ -552,7 +552,7 @@ function ChatInputBarInner({
               trigger={(open) => (
                 <IconButton
                   icon={SvgPlusCircle}
-                  tooltip="Attach Files"
+                  tooltip="Прикрепить файлы"
                   tertiary
                   transient={open}
                   disabled={disabled}

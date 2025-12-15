@@ -105,7 +105,7 @@ function RecentsSection({ chatSessions }: RecentsSectionProps) {
         isOver && "bg-background-tint-03"
       )}
     >
-      <SidebarSection title="Recents">
+      <SidebarSection title="Чаты">
         {chatSessions.length === 0 ? (
           <Text text01 className="px-3">
             Try sending a message! Your chat history will appear here.
@@ -385,7 +385,7 @@ function AppSidebarInner({ folded, onFoldClick }: AppSidebarInnerProps) {
           }}
           active={activeSidebarTab === "new-session"}
         >
-          New Session
+          Создать чат
         </SidebarTab>
       </div>
     ),
@@ -405,7 +405,7 @@ function AppSidebarInner({ folded, onFoldClick }: AppSidebarInnerProps) {
           active={activeSidebarTab === "more-agents"}
           lowlight={!folded}
         >
-          {visibleAgents.length === 0 ? "Explore Agents" : "More Agents"}
+          {visibleAgents.length === 0 ? "Explore Agents" : ""}
         </SidebarTab>
       </div>
     ),
@@ -420,7 +420,7 @@ function AppSidebarInner({ folded, onFoldClick }: AppSidebarInnerProps) {
         folded={folded}
         lowlight={!folded}
       >
-        New Project
+        Новый проект
       </SidebarTab>
     ),
     [folded, createProjectModal.toggle, createProjectModal.isOpen]
@@ -499,7 +499,7 @@ function AppSidebarInner({ folded, onFoldClick }: AppSidebarInnerProps) {
                 collisionDetection={closestCenter}
                 onDragEnd={handleAgentDragEnd}
               >
-                <SidebarSection title="Agents">
+                <SidebarSection title="Агенты">
                   <SortableContext
                     items={visibleAgentIds}
                     strategy={verticalListSortingStrategy}
@@ -524,12 +524,12 @@ function AppSidebarInner({ folded, onFoldClick }: AppSidebarInnerProps) {
               >
                 {/* Projects */}
                 <SidebarSection
-                  title="Projects"
+                  title="Проекты"
                   action={
                     <IconButton
                       icon={SvgFolderPlus}
                       internal
-                      tooltip="New Project"
+                      tooltip="Новый проект"
                       onClick={() => createProjectModal.toggle(true)}
                     />
                   }

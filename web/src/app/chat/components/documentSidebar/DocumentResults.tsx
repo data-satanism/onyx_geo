@@ -56,7 +56,7 @@ function Header({ children, onClose }: HeaderProps) {
           icon={SvgArrowWallRight}
           tertiary
           onClick={onClose}
-          tooltip="Close Sidebar"
+          tooltip="Свернуть меню"
         />
       </div>
       <Separator className="border-b my-3 mx-2" />

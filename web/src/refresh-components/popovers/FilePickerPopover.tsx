@@ -129,10 +129,10 @@ function FilePickerPopoverContents({
         <LineItem
           key="upload-files"
           icon={SvgPaperclip}
-          description="Upload a file from your device"
+          description="Загрузите файл с вашего устройства"
           onClick={triggerUploadPicker}
         >
-          Upload Files
+          Загрузить файлы
         </LineItem>,
 
         // Separator
@@ -142,7 +142,7 @@ function FilePickerPopoverContents({
         hasFiles && (
           <div key="recent-files" className="pt-1">
             <Text text02 secondaryBody className="py-1 px-3">
-              Recent Files
+              Недавние файлы
             </Text>
           </div>
         ),
@@ -160,7 +160,7 @@ function FilePickerPopoverContents({
         // Rest of the files
         shouldShowMoreFilesButton && (
           <LineItem icon={MoreHorizontal} onClick={openRecentFilesModal}>
-            All Recent Files
+            Все недавние файлы
           </LineItem>
         ),
       ]}
@@ -216,7 +216,7 @@ export default function FilePickerPopover({
       .then((result) => {
         if (!result.has_associations) {
           setPopup({
-            message: "File deleted successfully",
+            message: "Файл успешно удален",
             type: "success",
           });
           setCurrentMessageFiles((prev) =>
@@ -255,7 +255,7 @@ export default function FilePickerPopover({
           prev.map((f) => (f.id === file.id ? { ...f, status: lastStatus } : f))
         );
         setPopup({
-          message: "Failed to delete file. Please try again.",
+          message: "Не удалось удалить файл.",
           type: "error",
         });
         // Useful for debugging; safe in client components

@@ -107,7 +107,7 @@ export function SearchToolStep1Renderer({
 
   return children({
     icon: FiSearch,
-    status: "Searching internally",
+    status: "Поиск",
     content: (
       <div className="flex flex-col">
         <div className="flex flex-wrap gap-x-2 gap-y-2 ml-1">
@@ -169,7 +169,7 @@ export function SearchToolStep2Renderer({
 
   return children({
     icon: FiBookOpen,
-    status: "Reading",
+    status: "Чтение",
     content: (
       <div className="flex flex-col">
         <div className="flex flex-wrap gap-x-2 gap-y-2 ml-1">
